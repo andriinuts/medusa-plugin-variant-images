@@ -1,0 +1,10 @@
+/dist
+/build
+.env
+.DS_Store
+.cache
+/uploads
+/node_modules
+yarn-error.log
+/.idea
+compose-dev.yaml
