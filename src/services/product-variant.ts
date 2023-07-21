@@ -25,13 +25,13 @@ class ProductVariantService extends MedusaProductVariantService {
 
   // @ts-ignore
   async update(
-    variantOrVariantId: string | Partial<ProductVariant>,
-    update: UpdateProductVariantInput
+      variantOrVariantId: string | Partial<ProductVariant>,
+      update: UpdateProductVariantInput
   ): Promise<ProductVariant> {
     if (update.images) {
       const variant = await this.retrieve(variantOrVariantId as string);
       const variantRepo = this.activeManager_.withRepository(
-        this.productVariantRepository_
+          this.productVariantRepository_
       );
       const imageRepo = this.manager_.withRepository(this.imageRepository_);
       variant.images = await imageRepo.upsertImages(update.images);
