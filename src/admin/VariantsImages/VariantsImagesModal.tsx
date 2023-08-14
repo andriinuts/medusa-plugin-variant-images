@@ -1,7 +1,7 @@
-import { ProductVariant } from '@medusajs/medusa';
+import { Product, ProductVariant } from '@medusajs/medusa';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAdminUpdateVariant, useMedusa } from 'medusa-react';
+import { useAdminUpdateProduct, useAdminUpdateVariant, useMedusa } from 'medusa-react';
 import { Button, FocusModal } from '@medusajs/ui';
 import { nestedForm } from './utils/nestedForm';
 import { prepareImages } from './utils/images';
@@ -24,7 +24,7 @@ export type FormImage = {
 };
 
 type Props = {
-  productId: string;
+  product: Product;
   variant: ProductVariant;
   open: boolean;
   onClose: () => void;
@@ -39,14 +39,15 @@ const VariantsImagesModal = ({
   variant,
   open,
   onClose,
-  productId,
+  product,
   notify,
 }: Props) => {
   const { client } = useMedusa();
   const [isUpdating, setIsUpdating] = useState(false);
-  const { mutate } = useAdminUpdateVariant(productId);
+  const adminUpdateVariant = useAdminUpdateVariant(product?.id);
+  const adminUpdateProduct = useAdminUpdateProduct(product?.id);
   const form = useForm<MediaFormWrapper>({
-    defaultValues: getDefaultValues(variant),
+    defaultValues: getDefaultValues(product, variant),
   });
 
   const {
@@ -56,11 +57,11 @@ const VariantsImagesModal = ({
   } = form;
 
   useEffect(() => {
-    reset(getDefaultValues(variant));
-  }, [reset, variant]);
+    reset(getDefaultValues(product, variant));
+  }, [reset, product, variant]);
 
   const onReset = () => {
-    reset(getDefaultValues(variant));
+    reset(getDefaultValues(product, variant));
     onClose();
   };
 
@@ -85,9 +86,11 @@ const VariantsImagesModal = ({
       return;
     }
     const urls = preppedImages.map((image) => image.url);
-
+    const selected = data.media.images.map(({ selected }, i: number) => selected && urls[i]).filter(Boolean);
     // @ts-ignore
-    await mutate({ variant_id: variant.id, images: urls });
+    await adminUpdateProduct.mutate({ images: urls });
+    // @ts-ignore
+    await adminUpdateVariant.mutate({ variant_id: variant.id, images: selected });
     onClose();
     setIsUpdating(false);
   });
@@ -124,13 +127,13 @@ const VariantsImagesModal = ({
   );
 };
 
-const getDefaultValues = (variant: ProductVariant): MediaFormWrapper => {
+const getDefaultValues = (product: Product, variant: ProductVariant): MediaFormWrapper => {
   return {
     media: {
       images:
-        variant?.images?.map((image) => ({
+        product?.images?.map((image) => ({
           url: image.url,
-          selected: false,
+          selected: variant?.images?.some((vImage) => vImage.url === image.url) ?? false,
         })) || [],
     },
   };

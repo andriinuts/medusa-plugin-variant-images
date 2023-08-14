@@ -68,7 +68,7 @@ const VariantsImagesWidget = ({
       </Container>
 
       <VariantsImagesModal
-        productId={product.id}
+        product={product}
         variant={openedVariant}
         open={!!openedVariant}
         onClose={handleClose}

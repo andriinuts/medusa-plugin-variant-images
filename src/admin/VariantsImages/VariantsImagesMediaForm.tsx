@@ -44,34 +44,6 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
     }
   };
 
-  const images = useWatch({
-    control,
-    name: path('images'),
-    defaultValue: [],
-  });
-
-  const selected = useMemo(() => {
-    const selected: number[] = [];
-
-    images.forEach((i, index) => {
-      if (i.selected) {
-        selected.push(index);
-      }
-    });
-
-    return selected;
-  }, [images]);
-
-  const handleRemove = () => {
-    remove(selected);
-  };
-
-  const handleDeselect = () => {
-    selected.forEach((i) => {
-      setValue(path(`images.${i}.selected`), false);
-    });
-  };
-
   return (
     <div>
       <div>
@@ -89,13 +61,8 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
         <div className="mt-large">
           <div className="mb-small flex items-center justify-between">
             <h2 className="inter-large-semibold">Uploads</h2>
-            <ModalActions
-              number={selected.length}
-              onDeselect={handleDeselect}
-              onRemove={handleRemove}
-            />
           </div>
-          <div className="gap-y-2xsmall flex flex-col">
+          <div className="flex flex-wrap">
             {fields.map((field, index) => {
               return (
                 <Image
@@ -149,12 +116,6 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
                     className="rounded-rounded max-h-[64px] max-w-[64px]"
                   />
                 </div>
-                <div className="inter-small-regular flex flex-col text-left">
-                  <p>{image.name}</p>
-                  <p className="text-grey-50">
-                    {image.size ? `${(image.size / 1024).toFixed(2)} KB` : ''}
-                  </p>
-                </div>
               </div>
               <div className="gap-x-base flex items-center">
                 <span
@@ -166,66 +127,10 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
                 </span>
               </div>
             </button>
-            <div className="right-base absolute top-0 bottom-0 flex items-center">
-              <DropdownMenu>
-                <DropdownMenu.Trigger asChild>
-                  <Button variant="secondary" format={'icon'}>
-                    <EllipsisHorizontal />
-                  </Button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Item
-                    className="gap-x-2"
-                    onClick={() => remove(index)}
-                  >
-                    <Trash className="text-ui-fg-subtle" />
-                    Delete
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu>
-            </div>
           </div>
         );
       }}
     />
-  );
-};
-
-type ModalActionsProps = {
-  number: number;
-  onRemove: () => void;
-  onDeselect: () => void;
-};
-
-const ModalActions = ({ number, onRemove, onDeselect }: ModalActionsProps) => {
-  return (
-    <div className="flex h-10 items-center overflow-y-hidden pr-1">
-      <div
-        className={clsx(
-          'gap-x-small flex items-center transition-all duration-200',
-          {
-            'translate-y-[-42px]': !number,
-            'translate-y-[0px]': number,
-          }
-        )}
-      >
-        <span>{number} selected</span>
-        <div className="bg-grey-20 h-5 w-px" />
-        <div className="gap-x-xsmall flex items-center">
-          <Button
-            variant="secondary"
-            size="md"
-            type="button"
-            onClick={onDeselect}
-          >
-            Deselect
-          </Button>
-          <Button variant="danger" size="md" type="button" onClick={onRemove}>
-            Delete
-          </Button>
-        </div>
-      </div>
-    </div>
   );
 };
 
