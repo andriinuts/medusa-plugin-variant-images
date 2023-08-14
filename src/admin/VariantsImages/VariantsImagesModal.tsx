@@ -87,7 +87,6 @@ const VariantsImagesModal = ({
     }
     const urls = preppedImages.map((image) => image.url);
     const selected = data.media.images.map(({ selected }, i: number) => selected && urls[i]).filter(Boolean);
-    // @ts-ignore
     await adminUpdateProduct.mutate({ images: urls });
     // @ts-ignore
     await adminUpdateVariant.mutate({ variant_id: variant.id, images: selected });
