@@ -95,14 +95,14 @@ const VariantsImagesModal = ({
   });
 
   return (
-    <FocusModal.Root open={open} onOpenChange={onReset} modal>
+    <FocusModal open={open} onOpenChange={onReset} modal>
       <FocusModal.Content>
         <FocusModal.Header>
           <Button
             variant="primary"
             type="submit"
             disabled={!isDirty}
-            loading={isUpdating}
+            isLoading={isUpdating}
             form="variant-images-form"
           >
             Save and close
@@ -122,7 +122,7 @@ const VariantsImagesModal = ({
           </form>
         </FocusModal.Body>
       </FocusModal.Content>
-    </FocusModal.Root>
+    </FocusModal>
   );
 };
 
