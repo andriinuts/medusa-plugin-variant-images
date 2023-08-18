@@ -95,7 +95,7 @@ const VariantsImagesModal = ({
   });
 
   return (
-    <FocusModal open={open} onOpenChange={onReset} modal>
+    <FocusModal.Root open={open} onOpenChange={onReset} modal>
       <FocusModal.Content>
         <FocusModal.Header>
           <Button
@@ -122,7 +122,7 @@ const VariantsImagesModal = ({
           </form>
         </FocusModal.Body>
       </FocusModal.Content>
-    </FocusModal>
+    </FocusModal.Root>
   );
 };
 

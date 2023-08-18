@@ -22,12 +22,10 @@
     "@medusajs/admin": "^7.0.0",
     "@medusajs/icons": "0.0.0-alpha-20230713141422",
     "@medusajs/medusa": "^1.14.0",
-    "@medusajs/ui": "^1.0.0",
     "@types/stripe": "^8.0.417",
     "awilix": "^8.0.1",
     "cross-env": "^5.2.1",
     "jest": "^25.5.4",
-    "medusa-react": "9.0.4-beta-20230721103805",
     "typescript": "^4.9.5"
   },
   "peerDependenciesMeta": {
@@ -38,9 +36,7 @@
   "peerDependencies": {
     "@medusajs/admin": "^7.0.0",
     "@medusajs/icons": "0.0.0-alpha-20230713141422",
-    "@medusajs/medusa": "^1.14.0",
-    "@medusajs/ui": "^1.0.0",
-    "medusa-react": "^9.0.4-beta-20230721103805"
+    "@medusajs/medusa": "^1.14.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

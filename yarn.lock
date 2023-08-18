@@ -2141,17 +2141,6 @@
     retry-axios "^2.6.0"
     uuid "^9.0.0"
 
-"@medusajs/medusa-js@6.0.3-beta-20230721103805":
-  version "6.0.3-beta-20230721103805"
-  resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-6.0.3-beta-20230721103805.tgz#fdd2dc968d23cebb4695265664104ffe4719683a"
-  integrity sha512-47Z60pN+qBzNSA1dirqtJyxDA+DVTNqmgqu9DUA89T73Q2y/eSnmvcTHj6CcyRNtM7DjvprC4BMBU8g5X192cg==
-  dependencies:
-    axios "^0.24.0"
-    cross-env "^5.2.1"
-    qs "^6.10.3"
-    retry-axios "^2.6.0"
-    uuid "^9.0.0"
-
 "@medusajs/medusa@^1.14.0":
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/@medusajs/medusa/-/medusa-1.14.0.tgz#da1b66df7af5fa7d6c13cc9c16d243671a7c86cb"
@@ -9234,13 +9223,6 @@ medusa-react@*:
   integrity sha512-6S7QugdEH1ZlE/nxG3i/YlSRNsYuBgnfZJoM21oePezOsWkSRwKSt3n9LrYer3ws3QYla3Ozcy52OjMMTKdSyg==
   dependencies:
     "@medusajs/medusa-js" "*"
-
-medusa-react@9.0.4-beta-20230721103805:
-  version "9.0.4-beta-20230721103805"
-  resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-9.0.4-beta-20230721103805.tgz#fcabd397bc8c1985cb1ba0eec9061a83ee1f7a86"
-  integrity sha512-K84IvWeCbWbp2AXXXY4WI5xh/ZrQXJdcOqQiDm2/kdnKXW5TqGV35pZGGIT1ensnxZekl/zhNzEfT6iB7g8Brw==
-  dependencies:
-    "@medusajs/medusa-js" "6.0.3-beta-20230721103805"
 
 medusa-telemetry@^0.0.16:
   version "0.0.16"
