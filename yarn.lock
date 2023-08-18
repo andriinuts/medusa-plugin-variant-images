@@ -2086,11 +2086,6 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-1.0.0.tgz#0176d0c4988af8831cc9295576229a4bbc41bc26"
   integrity sha512-ta0WZLIz4A5EamHTxQLvKDqwGpVu73HGTqVDfnJ0IdGfKnP8IPY7KT/sSwuDnWiPp0WpLxGh/S8xw7aaYkRPng==
 
-"@medusajs/icons@0.0.0-alpha-20230713141422":
-  version "0.0.0-alpha-20230713141422"
-  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-0.0.0-alpha-20230713141422.tgz#9ff3ccd911c0890c8ae2bc9fc6561879a43bf6c7"
-  integrity sha512-rzKD1P7cN+ewMsi+d+jtMYjjoaT9UI1iCcVpV1TlOv+wOTDTftYt+wNg4ywUNgW3YUh7rgElQD9/nnz54MLDwQ==
-
 "@medusajs/icons@0.0.0-snapshot-20230816100247":
   version "0.0.0-snapshot-20230816100247"
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-0.0.0-snapshot-20230816100247.tgz#eb33a2afad496dbb2f676ecb2ee5fb5f326a1287"

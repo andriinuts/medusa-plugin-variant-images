@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "@medusajs/admin": "^7.0.0",
-    "@medusajs/icons": "0.0.0-alpha-20230713141422",
     "@medusajs/medusa": "^1.14.0",
     "@types/stripe": "^8.0.417",
     "awilix": "^8.0.1",
@@ -35,7 +34,6 @@
   },
   "peerDependencies": {
     "@medusajs/admin": "^7.0.0",
-    "@medusajs/icons": "0.0.0-alpha-20230713141422",
     "@medusajs/medusa": "^1.14.0"
   },
   "dependencies": {
