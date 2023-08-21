@@ -13,12 +13,13 @@ yarn add medusa-plugin-variant-images
 # Usage
 ## Configuration
 
-This plugin can be used with new `beta` version of medusa with new `@medusajs/admin`.
-After release stable version of new extendable admin widgets, this plugin will be updated to support stable version.
-If you want to play with it now, you can use `@medusajs/medusa`, `medusa-react`, and `@medusajs/admin` from `beta` branch.
-
-```bash
-yarn add @medusajs/medusa@beta @medusajs/admin@beta medusa-react@beta
+This plugin requires min version of packages:
+```
+"@medusajs/medusa": "^1.14.0",
+"@medusajs/admin": "^7.0.0"
+"medusa-react": "^9.0.4",
+"@medusajs/ui": "^1.0.0",
+"@medusajs/icons": "^1.0.0",
 ```
 
 ### Add to medusa-config.js
@@ -34,3 +35,6 @@ add to your plugins list
   },
 
 ```
+
+### How to get images from variant
+After enabling this plugin, each image variant will contains `images` field with array of images.
