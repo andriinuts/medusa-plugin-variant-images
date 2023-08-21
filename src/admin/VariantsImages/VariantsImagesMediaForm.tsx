@@ -1,16 +1,13 @@
 import clsx from 'clsx';
-import { useMemo } from 'react';
 import {
   Controller,
   FieldArrayWithId,
   useFieldArray,
-  useWatch,
 } from 'react-hook-form';
-import { Button, DropdownMenu } from '@medusajs/ui';
 import { NestedForm } from './utils/nestedForm';
 import { FormImage } from './utils/images';
 import FileUploadField from './components/FileUploadField';
-import { EllipsisHorizontal, Trash, CheckCircleSolid } from '@medusajs/icons';
+import { CheckCircleSolid } from '@medusajs/icons';
 
 type ImageType = { selected: boolean } & FormImage;
 
@@ -23,9 +20,9 @@ type Props = {
 };
 
 const VariantsImagesMediaForm = ({ form }: Props) => {
-  const { control, path, setValue } = form;
+  const { control, path } = form;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control: control,
     name: path('images'),
   });
@@ -44,34 +41,6 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
     }
   };
 
-  const images = useWatch({
-    control,
-    name: path('images'),
-    defaultValue: [],
-  });
-
-  const selected = useMemo(() => {
-    const selected: number[] = [];
-
-    images.forEach((i, index) => {
-      if (i.selected) {
-        selected.push(index);
-      }
-    });
-
-    return selected;
-  }, [images]);
-
-  const handleRemove = () => {
-    remove(selected);
-  };
-
-  const handleDeselect = () => {
-    selected.forEach((i) => {
-      setValue(path(`images.${i}.selected`), false);
-    });
-  };
-
   return (
     <div>
       <div>
@@ -87,22 +56,19 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
       </div>
       {fields.length > 0 && (
         <div className="mt-large">
-          <div className="mb-small flex items-center justify-between">
-            <h2 className="inter-large-semibold">Uploads</h2>
-            <ModalActions
-              number={selected.length}
-              onDeselect={handleDeselect}
-              onRemove={handleRemove}
-            />
+          <div className="mb-small">
+            <h2 className="inter-large-semibold mb-2xsmall">Uploads</h2>
+            <p className="inter-base-regular text-grey-50 mb-large">
+              Select images to use as variant images.
+            </p>
           </div>
-          <div className="gap-y-2xsmall flex flex-col">
+          <div className="flex flex-wrap space-x-4">
             {fields.map((field, index) => {
               return (
                 <Image
                   key={field.id}
                   image={field}
                   index={index}
-                  remove={remove}
                   form={form}
                 />
               );
@@ -117,11 +83,10 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
 type ImageProps = {
   image: FieldArrayWithId<MediaFormType, 'images', 'id'>;
   index: number;
-  remove: (index: number) => void;
   form: NestedForm<MediaFormType>;
 };
 
-const Image = ({ image, index, form, remove }: ImageProps) => {
+const Image = ({ image, index, form }: ImageProps) => {
   const { control, path } = form;
 
   return (
@@ -133,7 +98,7 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
           <div className="relative">
             <button
               className={clsx(
-                'px-base py-xsmall hover:bg-grey-5 rounded-rounded group flex items-center justify-between',
+                'hover:bg-grey-5 rounded-rounded group flex items-center justify-between',
                 {
                   'bg-grey-5': value,
                 }
@@ -142,90 +107,27 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
               onClick={() => onChange(!value)}
             >
               <div className="gap-x-large flex items-center">
-                <div className="flex h-16 w-16 items-center justify-center">
+                <div className="flex h-32 w-32 items-center justify-center">
                   <img
                     src={image.url}
                     alt={image.name || 'Uploaded image'}
-                    className="rounded-rounded max-h-[64px] max-w-[64px]"
+                    className="rounded-rounded max-h-32 max-w-32"
                   />
                 </div>
-                <div className="inter-small-regular flex flex-col text-left">
-                  <p>{image.name}</p>
-                  <p className="text-grey-50">
-                    {image.size ? `${(image.size / 1024).toFixed(2)} KB` : ''}
-                  </p>
-                </div>
-              </div>
-              <div className="gap-x-base flex items-center">
+
                 <span
-                  className={clsx('hidden', {
-                    '!text-violet-60 !block': value,
-                  })}
+                    className={clsx('hidden', {
+                      '!text-violet-60 !block absolute bottom-xsmall right-xsmall': value,
+                    })}
                 >
                   <CheckCircleSolid />
                 </span>
               </div>
             </button>
-            <div className="right-base absolute top-0 bottom-0 flex items-center">
-              <DropdownMenu>
-                <DropdownMenu.Trigger asChild>
-                  <Button variant="secondary" format={'icon'}>
-                    <EllipsisHorizontal />
-                  </Button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Item
-                    className="gap-x-2"
-                    onClick={() => remove(index)}
-                  >
-                    <Trash className="text-ui-fg-subtle" />
-                    Delete
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu>
-            </div>
           </div>
         );
       }}
     />
-  );
-};
-
-type ModalActionsProps = {
-  number: number;
-  onRemove: () => void;
-  onDeselect: () => void;
-};
-
-const ModalActions = ({ number, onRemove, onDeselect }: ModalActionsProps) => {
-  return (
-    <div className="flex h-10 items-center overflow-y-hidden pr-1">
-      <div
-        className={clsx(
-          'gap-x-small flex items-center transition-all duration-200',
-          {
-            'translate-y-[-42px]': !number,
-            'translate-y-[0px]': number,
-          }
-        )}
-      >
-        <span>{number} selected</span>
-        <div className="bg-grey-20 h-5 w-px" />
-        <div className="gap-x-xsmall flex items-center">
-          <Button
-            variant="secondary"
-            size="md"
-            type="button"
-            onClick={onDeselect}
-          >
-            Deselect
-          </Button>
-          <Button variant="danger" size="md" type="button" onClick={onRemove}>
-            Delete
-          </Button>
-        </div>
-      </div>
-    </div>
   );
 };
 
