@@ -2081,7 +2081,7 @@
     rollup-plugin-esbuild "5.0.0"
     ts-dedent "^2.2.0"
 
-"@medusajs/icons@*":
+"@medusajs/icons@*", "@medusajs/icons@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-1.0.0.tgz#0176d0c4988af8831cc9295576229a4bbc41bc26"
   integrity sha512-ta0WZLIz4A5EamHTxQLvKDqwGpVu73HGTqVDfnJ0IdGfKnP8IPY7KT/sSwuDnWiPp0WpLxGh/S8xw7aaYkRPng==
@@ -9212,7 +9212,7 @@ medusa-core-utils@1.2.0, medusa-core-utils@^1.2.0:
   resolved "https://registry.yarnpkg.com/medusa-core-utils/-/medusa-core-utils-1.2.0.tgz#4a2aa9fd63dacda487b220c8e462540990605092"
   integrity sha512-9mzXGkMsll92C46Ub8A9vwjcfFiHfdkgshwmPP9QpRrm02M6N+SQb45S2A9t0dKjyT9J7rgCCSrFhYQg3pvqbw==
 
-medusa-react@*:
+medusa-react@*, medusa-react@^9.0.4:
   version "9.0.4"
   resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-9.0.4.tgz#40525616f8dfcad73bc7e497e79b3b96c2e7c025"
   integrity sha512-6S7QugdEH1ZlE/nxG3i/YlSRNsYuBgnfZJoM21oePezOsWkSRwKSt3n9LrYer3ws3QYla3Ozcy52OjMMTKdSyg==

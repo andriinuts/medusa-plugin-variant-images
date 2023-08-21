@@ -1,16 +1,13 @@
 import clsx from 'clsx';
-import { useMemo } from 'react';
 import {
   Controller,
   FieldArrayWithId,
   useFieldArray,
-  useWatch,
 } from 'react-hook-form';
-import { Button, DropdownMenu } from '@medusajs/ui';
 import { NestedForm } from './utils/nestedForm';
 import { FormImage } from './utils/images';
 import FileUploadField from './components/FileUploadField';
-import { EllipsisHorizontal, Trash, CheckCircleSolid } from '@medusajs/icons';
+import { CheckCircleSolid } from '@medusajs/icons';
 
 type ImageType = { selected: boolean } & FormImage;
 
@@ -23,9 +20,9 @@ type Props = {
 };
 
 const VariantsImagesMediaForm = ({ form }: Props) => {
-  const { control, path, setValue } = form;
+  const { control, path } = form;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control: control,
     name: path('images'),
   });
@@ -59,17 +56,19 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
       </div>
       {fields.length > 0 && (
         <div className="mt-large">
-          <div className="mb-small flex items-center justify-between">
-            <h2 className="inter-large-semibold">Uploads</h2>
+          <div className="mb-small">
+            <h2 className="inter-large-semibold mb-2xsmall">Uploads</h2>
+            <p className="inter-base-regular text-grey-50 mb-large">
+              Select images to use as variant images.
+            </p>
           </div>
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap space-x-4">
             {fields.map((field, index) => {
               return (
                 <Image
                   key={field.id}
                   image={field}
                   index={index}
-                  remove={remove}
                   form={form}
                 />
               );
@@ -84,11 +83,10 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
 type ImageProps = {
   image: FieldArrayWithId<MediaFormType, 'images', 'id'>;
   index: number;
-  remove: (index: number) => void;
   form: NestedForm<MediaFormType>;
 };
 
-const Image = ({ image, index, form, remove }: ImageProps) => {
+const Image = ({ image, index, form }: ImageProps) => {
   const { control, path } = form;
 
   return (
@@ -100,7 +98,7 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
           <div className="relative">
             <button
               className={clsx(
-                'px-base py-xsmall hover:bg-grey-5 rounded-rounded group flex items-center justify-between',
+                'hover:bg-grey-5 rounded-rounded group flex items-center justify-between',
                 {
                   'bg-grey-5': value,
                 }
@@ -109,19 +107,18 @@ const Image = ({ image, index, form, remove }: ImageProps) => {
               onClick={() => onChange(!value)}
             >
               <div className="gap-x-large flex items-center">
-                <div className="flex h-16 w-16 items-center justify-center">
+                <div className="flex h-32 w-32 items-center justify-center">
                   <img
                     src={image.url}
                     alt={image.name || 'Uploaded image'}
-                    className="rounded-rounded max-h-[64px] max-w-[64px]"
+                    className="rounded-rounded max-h-32 max-w-32"
                   />
                 </div>
-              </div>
-              <div className="gap-x-base flex items-center">
+
                 <span
-                  className={clsx('hidden', {
-                    '!text-violet-60 !block': value,
-                  })}
+                    className={clsx('hidden', {
+                      '!text-violet-60 !block absolute bottom-xsmall right-xsmall': value,
+                    })}
                 >
                   <CheckCircleSolid />
                 </span>

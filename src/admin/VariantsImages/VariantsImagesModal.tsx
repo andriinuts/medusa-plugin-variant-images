@@ -95,7 +95,7 @@ const VariantsImagesModal = ({
   });
 
   return (
-    <FocusModal.Root open={open} onOpenChange={onReset} modal>
+    <FocusModal open={open} onOpenChange={onReset} modal>
       <FocusModal.Content>
         <FocusModal.Header>
           <Button
@@ -113,7 +113,7 @@ const VariantsImagesModal = ({
             <div>
               <h2 className="inter-large-semibold mb-2xsmall">Media</h2>
               <p className="inter-base-regular text-grey-50 mb-large">
-                Add images to your variant.
+                Add images to your product media.
               </p>
               <div>
                 <VariantsImagesMediaForm form={nestedForm(form, 'media')} />
@@ -122,7 +122,7 @@ const VariantsImagesModal = ({
           </form>
         </FocusModal.Body>
       </FocusModal.Content>
-    </FocusModal.Root>
+    </FocusModal>
   );
 };
 
