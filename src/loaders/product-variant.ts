@@ -16,4 +16,9 @@ export default async function () {
     ...storeVariantsImports.defaultStoreVariantRelations,
     'images',
   ];
+
+  storeVariantsImports.allowedStoreVariantRelations = [
+    ...storeVariantsImports.allowedStoreVariantRelations,
+    'images',
+  ];
 }

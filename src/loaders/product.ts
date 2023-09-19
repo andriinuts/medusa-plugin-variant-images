@@ -16,4 +16,9 @@ export default async function () {
     ...storeProductImports.defaultStoreProductsRelations,
     'variants.images',
   ]
+
+  storeProductImports.allowedStoreProductsRelations = [
+    ...storeProductImports.allowedStoreProductsRelations,
+    'variants.images',
+  ]
 }
