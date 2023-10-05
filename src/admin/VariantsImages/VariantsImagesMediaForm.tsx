@@ -1,13 +1,10 @@
 import clsx from 'clsx';
-import {
-  Controller,
-  FieldArrayWithId,
-  useFieldArray,
-} from 'react-hook-form';
+import { Controller, FieldArrayWithId, useFieldArray } from 'react-hook-form';
 import { NestedForm } from './utils/nestedForm';
 import { FormImage } from './utils/images';
 import FileUploadField from './components/FileUploadField';
 import { CheckCircleSolid } from '@medusajs/icons';
+import { useRef } from 'react';
 
 type ImageType = { selected: boolean } & FormImage;
 
@@ -17,15 +14,21 @@ export type MediaFormType = {
 
 type Props = {
   form: NestedForm<MediaFormType>;
+  type: 'thumbnail' | 'media';
 };
 
-const VariantsImagesMediaForm = ({ form }: Props) => {
-  const { control, path } = form;
+const VariantsImagesMediaForm = ({ form, type }: Props) => {
+  const { control, path, setValue } = form;
 
+  const singleSelection = type === 'thumbnail';
   const { fields, append } = useFieldArray({
     control: control,
     name: path('images'),
   });
+
+  const prevSelectedImage = useRef<number | undefined>(
+    fields?.findIndex((field) => field.selected)
+  );
 
   const handleFilesChosen = (files: File[]) => {
     if (files.length) {
@@ -39,6 +42,13 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
 
       append(toAppend);
     }
+  };
+
+  const handleImageSelected = (index: number) => {
+    if (prevSelectedImage.current !== undefined && singleSelection) {
+      setValue(path(`images.${prevSelectedImage.current}.selected`), false);
+    }
+    prevSelectedImage.current = index;
   };
 
   return (
@@ -59,7 +69,11 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
           <div className="mb-small">
             <h2 className="inter-large-semibold mb-2xsmall">Uploads</h2>
             <p className="inter-base-regular text-grey-50 mb-large">
-              Select images to use as variant images.
+              {type === 'thumbnail' ? (
+                <span>Select an image to use as variant thumbnail.</span>
+              ) : (
+                <span>Select images to use as variant images.</span>
+              )}
             </p>
           </div>
           <div className="flex flex-wrap space-x-4">
@@ -70,6 +84,7 @@ const VariantsImagesMediaForm = ({ form }: Props) => {
                   image={field}
                   index={index}
                   form={form}
+                  onSelected={handleImageSelected}
                 />
               );
             })}
@@ -84,9 +99,10 @@ type ImageProps = {
   image: FieldArrayWithId<MediaFormType, 'images', 'id'>;
   index: number;
   form: NestedForm<MediaFormType>;
+  onSelected: (index: number) => void;
 };
 
-const Image = ({ image, index, form }: ImageProps) => {
+const Image = ({ image, index, form, onSelected }: ImageProps) => {
   const { control, path } = form;
 
   return (
@@ -104,21 +120,27 @@ const Image = ({ image, index, form }: ImageProps) => {
                 }
               )}
               type="button"
-              onClick={() => onChange(!value)}
+              onClick={() => {
+                onChange(!value);
+                if (!value) {
+                  onSelected(index);
+                }
+              }}
             >
               <div className="gap-x-large flex items-center">
                 <div className="flex h-32 w-32 items-center justify-center">
                   <img
                     src={image.url}
                     alt={image.name || 'Uploaded image'}
-                    className="rounded-rounded max-h-32 max-w-32"
+                    className="rounded-rounded max-w-32 max-h-32"
                   />
                 </div>
 
                 <span
-                    className={clsx('hidden', {
-                      '!text-violet-60 !block absolute bottom-xsmall right-xsmall': value,
-                    })}
+                  className={clsx('hidden', {
+                    '!text-violet-60 bottom-xsmall right-xsmall absolute !block':
+                      value,
+                  })}
                 >
                   <CheckCircleSolid />
                 </span>

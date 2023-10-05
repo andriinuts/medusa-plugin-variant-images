@@ -1,4 +1,4 @@
-import { Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import {
   ProductVariant as MedusaProductVariant,
   Image,
@@ -19,4 +19,7 @@ export class ProductVariant extends MedusaProductVariant {
     },
   })
   images: Image[];
+
+  @Column({ type: 'text', nullable: true })
+  thumbnail: string | null
 }

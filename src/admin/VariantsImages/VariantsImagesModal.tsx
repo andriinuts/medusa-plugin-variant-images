@@ -1,7 +1,11 @@
 import { Product, ProductVariant } from '@medusajs/medusa';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAdminUpdateProduct, useAdminUpdateVariant, useMedusa } from 'medusa-react';
+import {
+  useAdminUpdateProduct,
+  useAdminUpdateVariant,
+  useMedusa,
+} from 'medusa-react';
 import { Button, FocusModal } from '@medusajs/ui';
 import { nestedForm } from './utils/nestedForm';
 import { prepareImages } from './utils/images';
@@ -29,6 +33,7 @@ type Props = {
   open: boolean;
   onClose: () => void;
   notify: Notify;
+  type: 'thumbnail' | 'media';
 };
 
 type MediaFormWrapper = {
@@ -41,13 +46,14 @@ const VariantsImagesModal = ({
   onClose,
   product,
   notify,
+  type,
 }: Props) => {
   const { client } = useMedusa();
   const [isUpdating, setIsUpdating] = useState(false);
   const adminUpdateVariant = useAdminUpdateVariant(product?.id);
   const adminUpdateProduct = useAdminUpdateProduct(product?.id);
   const form = useForm<MediaFormWrapper>({
-    defaultValues: getDefaultValues(product, variant),
+    defaultValues: getDefaultValues(product, variant, type),
   });
 
   const {
@@ -57,11 +63,11 @@ const VariantsImagesModal = ({
   } = form;
 
   useEffect(() => {
-    reset(getDefaultValues(product, variant));
-  }, [reset, product, variant]);
+    reset(getDefaultValues(product, variant, type));
+  }, [reset, product, variant, type]);
 
   const onReset = () => {
-    reset(getDefaultValues(product, variant));
+    reset(getDefaultValues(product, variant, type));
     onClose();
   };
 
@@ -86,10 +92,29 @@ const VariantsImagesModal = ({
       return;
     }
     const urls = preppedImages.map((image) => image.url);
-    const selected = data.media.images.map(({ selected }, i: number) => selected && urls[i]).filter(Boolean);
     await adminUpdateProduct.mutate({ images: urls });
-    // @ts-ignore
-    await adminUpdateVariant.mutate({ variant_id: variant.id, images: selected });
+
+    if (type === 'thumbnail') {
+      const thumbnail =
+        data.media.images.find((image) => image.selected)?.url || null;
+
+      await adminUpdateVariant.mutate({
+        variant_id: variant.id,
+        // @ts-ignore
+        thumbnail,
+      });
+    } else {
+      const images = data.media.images
+        .map(({ selected }, i: number) => selected && urls[i])
+        .filter(Boolean);
+
+      await adminUpdateVariant.mutate({
+        variant_id: variant.id,
+        // @ts-ignore
+        images,
+      });
+    }
+
     onClose();
     setIsUpdating(false);
   });
@@ -116,7 +141,10 @@ const VariantsImagesModal = ({
                 Add images to your product media.
               </p>
               <div>
-                <VariantsImagesMediaForm form={nestedForm(form, 'media')} />
+                <VariantsImagesMediaForm
+                  form={nestedForm(form, 'media')}
+                  type={type}
+                />
               </div>
             </div>
           </form>
@@ -126,13 +154,21 @@ const VariantsImagesModal = ({
   );
 };
 
-const getDefaultValues = (product: Product, variant: ProductVariant): MediaFormWrapper => {
+const getDefaultValues = (
+  product: Product,
+  variant: ProductVariant,
+  type: 'thumbnail' | 'media'
+): MediaFormWrapper => {
   return {
     media: {
       images:
         product?.images?.map((image) => ({
           url: image.url,
-          selected: variant?.images?.some((vImage) => vImage.url === image.url) ?? false,
+          selected:
+            type === 'thumbnail'
+              ? variant.thumbnail === image.url
+              : variant?.images?.some((vImage) => vImage.url === image.url) ??
+                false,
         })) || [],
     },
   };

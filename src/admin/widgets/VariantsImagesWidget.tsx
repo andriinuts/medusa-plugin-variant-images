@@ -12,9 +12,13 @@ const VariantsImagesWidget = ({
   const [openedVariant, setOpenedVariant] = useState<ProductVariant | null>(
     null
   );
+  const [openedDialogType, setOpenedDialogType] = useState<
+    'media' | 'thumbnail' | null
+  >(null);
 
   const handleClose = () => {
     setOpenedVariant(null);
+    setOpenedDialogType(null);
   };
 
   return (
@@ -40,6 +44,17 @@ const VariantsImagesWidget = ({
                   <DropdownMenu.Item
                     onClick={() => {
                       setOpenedVariant(variant);
+                      setOpenedDialogType('thumbnail');
+                    }}
+                    className="gap-x-2"
+                  >
+                    <PencilSquare className="text-ui-fg-subtle" />
+                    Edit Thumbnail
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item
+                    onClick={() => {
+                      setOpenedVariant(variant);
+                      setOpenedDialogType('media');
                     }}
                     className="gap-x-2"
                   >
@@ -49,31 +64,46 @@ const VariantsImagesWidget = ({
                 </DropdownMenu.Content>
               </DropdownMenu>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap items-center">
+              {variant.thumbnail ? (
+                <img
+                  src={variant.thumbnail}
+                  alt="Thumbnail"
+                  className="mr-1 mt-1 h-20 w-20 object-cover"
+                />
+              ) : (
+                <div className="inter-regular mr-1 w-20 break-words">
+                  No thumbnail
+                </div>
+              )}
+
               {variant.images.length ? (
                 variant.images.map((image) => (
                   <img
                     key={image.id}
                     src={image.url}
                     alt="Uploaded image"
-                    className="mr-1 h-20 w-20 object-cover"
+                    className="mr-1 mt-1 h-20 w-20 object-cover"
                   />
                 ))
               ) : (
-                <span className="inter-small-regular">No images...</span>
+                <span className="inter-regular">No images...</span>
               )}
             </div>
           </div>
         ))}
       </Container>
 
-      <VariantsImagesModal
-        product={product}
-        variant={openedVariant}
-        open={!!openedVariant}
-        onClose={handleClose}
-        notify={notify}
-      />
+      {openedDialogType && (
+        <VariantsImagesModal
+          product={product}
+          variant={openedVariant}
+          open={!!openedVariant}
+          onClose={handleClose}
+          type={openedDialogType}
+          notify={notify}
+        />
+      )}
     </>
   );
 };

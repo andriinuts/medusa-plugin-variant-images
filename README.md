@@ -49,4 +49,4 @@ npx medusa migrations run
 
 ### How to get images from variant
 
-After enabling this plugin, each image variant will contains `images` field with array of images.
+After enabling this plugin, each variant will contains `images` and `thumbnail` fields.
