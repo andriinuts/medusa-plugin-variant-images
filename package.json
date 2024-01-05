@@ -1,6 +1,6 @@
 {
   "name": "medusa-plugin-variant-images",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Plugin for adding images and thumbnail to variants",
   "main": "dist/index.js",
   "repository": {
