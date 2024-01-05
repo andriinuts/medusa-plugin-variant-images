@@ -36,8 +36,10 @@ class ProductVariantService extends MedusaProductVariantService {
       const imageRepo = this.manager_.withRepository(this.imageRepository_);
       variant.images = await imageRepo.upsertImages(update.images);
 
-      return await variantRepo.save(variant);
+      await variantRepo.save(variant);
     }
+    
+    delete update.images;
 
     return super.update(variantOrVariantId, update);
   }
