@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Container, DropdownMenu, Heading } from '@medusajs/ui';
+import { IconButton, Container, DropdownMenu, Heading } from '@medusajs/ui';
 import { ProductDetailsWidgetProps, WidgetConfig } from '@medusajs/admin';
 import { ProductVariant } from '@medusajs/medusa';
 import { EllipsisHorizontal, PencilSquare } from '@medusajs/icons';
@@ -36,9 +36,9 @@ const VariantsImagesWidget = ({
               <div className="inter-base-semibold flex-1">{variant.title}</div>
               <DropdownMenu>
                 <DropdownMenu.Trigger asChild>
-                  <Button variant="secondary" format={'icon'}>
+                  <IconButton variant="transparent">
                     <EllipsisHorizontal />
-                  </Button>
+                  </IconButton>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                   <DropdownMenu.Item
