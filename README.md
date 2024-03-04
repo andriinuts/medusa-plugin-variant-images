@@ -1,3 +1,4 @@
+As Medusa is not stable and looks like the Medusa team doesn't care about bug fixing I'm archiving this repo. Feel free to fork it if you want. But I would recommend you to have a look at [Vendure](https://vendure.io/) as it's more stable and this functionality is out of the box.
 # Medusa-Plugin-Variant-Images
 
 Adding possibility to add images to the product variants.
