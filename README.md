@@ -19,10 +19,10 @@ This plugin requires min version of packages:
 
 ```
 "@medusajs/medusa": "^1.14.0",
-"@medusajs/admin": "^7.0.0"
+"@medusajs/admin": "^7.1.10"
 "medusa-react": "^9.0.4",
-"@medusajs/ui": "^1.0.0",
-"@medusajs/icons": "^1.0.0",
+"@medusajs/ui": "^2.2.4",
+"@medusajs/icons": "^1.1.0",
 ```
 
 ### Add to medusa-config.js
